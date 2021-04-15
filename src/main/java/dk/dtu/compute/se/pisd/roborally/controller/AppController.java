@@ -30,6 +30,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -59,8 +60,6 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
-
-    private IRepository repo;
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -101,17 +100,44 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        //repo.createGameInDB(game)
+
+        if (RepositoryAccess.getRepository().createGameInDB(gameController.board)){
+            RepositoryAccess.getRepository().getGames();
+            System.out.println("saved");
+            return;
+        }
+
+        System.out.println("could not save");
+
         // XXX needs to be implemented eventually
-        System.out.println("test");
+
     }
 
     public void loadGame() {
+        /*
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(1, RepositoryAccess.getRepository().getGames());
+        dialog.setTitle("Load game");
+        dialog.setHeaderText("Select save to load");
+        Optional<Integer> result = dialog.showAndWait();
+
+         */
+
+        gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(5));
+
+        gameController.startProgrammingPhase();
+
+        roboRally.createBoardView(gameController);
+
+        System.out.println("testin");
+
         // XXX needs to be implememted eventually
         // for now, we just create a new game
+        /*
         if (gameController == null) {
             newGame();
         }
+
+         */
     }
 
     /**
@@ -143,7 +169,7 @@ public class AppController implements Observer {
             alert.setContentText("Are you sure you want to exit RoboRally?");
             Optional<ButtonType> result = alert.showAndWait();
 
-            if (!result.isPresent() || result.get() != ButtonType.OK) {
+            if (result.isEmpty() || result.get() != ButtonType.OK) {
                 return; // return without exiting the application
             }
         }

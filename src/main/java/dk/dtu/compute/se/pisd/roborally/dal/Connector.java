@@ -39,25 +39,31 @@ class Connector {
 	
     private static final String HOST     = "localhost";
     private static final int    PORT     = 3306;
-    private static final String DATABASE = "pisu";
+    private static final String DATABASE = "testJDBCrobo";
     private static final String USERNAME = "user";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "password";
 
     private static final String DELIMITER = ";;";
     
     private Connection connection;
         
     Connector() {
-        try {
-			// String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE;
-			String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?serverTimezone=UTC";
+
+		//String url = "jdbc:mysql://localhost:3306/testJDBCrobo?serverTimezone=UTC&useSSL=false";
+		String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?serverTimezone=UTC" + "&useSSL=false";
+
+		System.out.println("Connecting database...");
+
+		try {
 			connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
 
+
 			createDatabaseSchema();
+
 		} catch (SQLException e) {
+			throw new IllegalStateException("Cannot connect the database!", e);
 			// TODO we should try to diagnose and fix some problems here and
 			//      exit in a more graceful way
-			e.printStackTrace();
 			// Platform.exit();
 		}
     }
@@ -78,6 +84,7 @@ class Connector {
 
     		statement.close();
     		connection.commit();
+
     	} catch (SQLException e) {
     		e.printStackTrace();
     		// TODO error handling

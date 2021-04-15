@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.dal;
 
+import com.sun.scenario.effect.impl.prism.PrReflectionPeer;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
@@ -384,6 +385,24 @@ class Repository implements IRepository {
 		}
 		return select_game_stmt;
 	}
+/*
+	private PreparedStatement getSelectCardFieldStatement(){
+		if (select_card_field_stmt == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_card_field_stmt = connection.prepareStatement(
+						SQL_S
+				)
+			}
+		}
+
+
+	}
+
+
+
+	private PreparedStatement select_card_field_stmt_u = null;
+*/
 		
 	private static final String SQL_SELECT_PLAYERS =
 			"SELECT * FROM Player WHERE gameID = ?";
@@ -444,6 +463,12 @@ class Repository implements IRepository {
 		}
 		return select_games_stmt;
 	}
+/*
+	private void loadCardFieldsFromDB(){
+		PreparedStatement ps = getSelectGameIdsStatement()
+	}
+
+ */
 
 
 

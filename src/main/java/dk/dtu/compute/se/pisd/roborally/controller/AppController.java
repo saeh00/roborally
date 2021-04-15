@@ -45,6 +45,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * ...
@@ -56,7 +58,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-
+    final private List<Integer> GAME_ID = Arrays.asList(1, 2, 3, 4, 5);
     final private RoboRally roboRally;
 
     private GameController gameController;
@@ -114,15 +116,16 @@ public class AppController implements Observer {
     }
 
     public void loadGame() {
-        /*
-        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(1, RepositoryAccess.getRepository().getGames());
+        ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>(RepositoryAccess.getRepository().getGames().get(0),RepositoryAccess.getRepository().getGames());
         dialog.setTitle("Load game");
         dialog.setHeaderText("Select save to load");
-        Optional<Integer> result = dialog.showAndWait();
+        Optional<GameInDB> result = dialog.showAndWait();
 
-         */
+        Matcher matcher = Pattern.compile("\\d+").matcher(result.get().toString());
+        matcher.find();
+        int loadGame_ID = Integer.valueOf(matcher.group());
 
-        gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(5));
+        gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(loadGame_ID));
 
         gameController.startProgrammingPhase();
 

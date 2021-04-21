@@ -21,7 +21,10 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -29,12 +32,15 @@ import java.util.List;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
+
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
 public class Board extends Subject {
 
     public final int width;
@@ -144,6 +150,16 @@ public class Board extends Subject {
             notifyChange();
         }
     }
+
+    public List<CheckPoint> getCheckpoints() {
+        return this.checkpoints;
+    }
+
+    public void setCheckpoint(Checkpoint checkpoint) {
+        this.checkpoints.add(checkpoint);
+
+    }
+
 
     public boolean isStepMode() {
         return stepMode;

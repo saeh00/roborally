@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class Space extends Subject {
     private Player player;
 
     private List<Heading> walls = new ArrayList<>();
-    private List<FieldAction> actions = new ArrayList<>();
+    public List<FieldAction> actions = new ArrayList<>();
 
     public final Board board;
 
@@ -84,6 +85,16 @@ public class Space extends Subject {
         // This is a minor hack; since some views that are registered with the space
         // also need to update when some player attributes change, the player can
         // notify the space of these changes by calling this method.
+        notifyChange();
+    }
+
+    public void addAction(FieldAction action) {
+        this.actions.add(action);
+
+        if (action instanceof CheckPoint) {
+            this.board.setCheckpoint((CheckPoint) action);
+        }
+
         notifyChange();
     }
 

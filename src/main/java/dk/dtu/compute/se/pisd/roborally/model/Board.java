@@ -23,7 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.
+import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +50,8 @@ public class Board extends Subject {
     private Integer gameId;
 
     private final Space[][] spaces;
+
+    private List<CheckPoint>checkpoints = new ArrayList<CheckPoint>();
 
     private final List<Player> players = new ArrayList<>();
 
@@ -155,7 +157,7 @@ public class Board extends Subject {
         return this.checkpoints;
     }
 
-    public void setCheckpoint(Checkpoint checkpoint) {
+    public void setCheckpoint(CheckPoint checkpoint) {
         this.checkpoints.add(checkpoint);
 
     }

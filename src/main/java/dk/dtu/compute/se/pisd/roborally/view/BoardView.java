@@ -22,16 +22,24 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -51,6 +59,8 @@ public class BoardView extends VBox implements ViewObserver {
     private Label statusLabel;
 
     private SpaceEventHandler spaceEventHandler;
+
+    private List fieldOptions = new ArrayList<String>();
 
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;
@@ -107,13 +117,73 @@ public class BoardView extends VBox implements ViewObserver {
                 Space space = spaceView.space;
                 Board board = space.board;
 
+                ChoiceDialog dialog = new ChoiceDialog();
+                dialog.setContentText("Hvad vil du tilføje?");
+                dialog.getItems().addAll(fieldOptions);
+
                 if (board == gameController.board) {
                     gameController.moveCurrentPlayerToSpace(space);
                     event.consume();
                 }
+
+                if (dialog.getSelectedItem() == null) {
+                    return;
+                }
+
+                switch ((String) dialog.getSelectedItem()) {
+
+                    case "Checkpoint":
+                        addCheckpoint(space);
+                        break;
+
+                }
+            }
+        }
+    }
+
+    private void showWarning(String text) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, text);
+        alert.showAndWait();
+    }
+
+    private void addCheckpoint(Space space) {
+        for (FieldAction action : space.getActions()) {
+            if (action instanceof CheckPoint) {
+                showWarning("There is already an instance of checkpoint on this space");
+                return;
             }
         }
 
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setContentText("Hvilket nummer checkpoint skal dette være?");
+        dialog.showAndWait();
+
+        if (dialog.getResult() != null) {
+            int no = Integer.parseInt(dialog.getResult());
+
+            if (no <= board.getCheckpoints().size()) {
+                String msg = "Du har indtastet et tal der allerede findes. Du skal mindst indtaste " + (board.getCheckpoints().size() + 1);
+                Alert alert = new Alert(Alert.AlertType.WARNING, msg);
+                alert.showAndWait();
+
+                addCheckpoint(space);
+            }
+
+            CheckPoint checkpoint = new CheckPoint(no);
+            space.addAction(checkpoint);
+
+        }
+
+    }
+
+    private void addOptions() {
+        this.fieldOptions.add("Antenna");
+        this.fieldOptions.add("Conveyor Belt");
+        this.fieldOptions.add("Spiller startfelt");
+        this.fieldOptions.add("Walls");
+        this.fieldOptions.add("Checkpoint");
+        this.fieldOptions.add("Gear");
+        this.fieldOptions.add("Pit");
     }
 
 }

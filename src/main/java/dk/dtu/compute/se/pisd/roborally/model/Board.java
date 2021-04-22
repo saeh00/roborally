@@ -23,7 +23,6 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
@@ -150,16 +149,6 @@ public class Board extends Subject {
             notifyChange();
         }
     }
-
-    public List<CheckPoint> getCheckpoints() {
-        return this.checkpoints;
-    }
-
-    public void setCheckpoint(Checkpoint checkpoint) {
-        this.checkpoints.add(checkpoint);
-
-    }
-
 
     public boolean isStepMode() {
         return stepMode;

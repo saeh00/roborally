@@ -41,6 +41,7 @@ public class Player extends Subject {
 
     private String name;
     private String color;
+    private int lastCheckpoint;
 
     private Space space;
     private Heading heading = SOUTH;
@@ -131,6 +132,18 @@ public class Player extends Subject {
 
     public CommandCardField getCardField(int i) {
         return cards[i];
+    }
+
+    public void setLastCheckpoint(int lastCheckpoint) {
+        // we only update this if the new checkpoint number is higher than the one the player already has
+        if (lastCheckpoint == (this.lastCheckpoint + 1)) {
+            this.lastCheckpoint = lastCheckpoint;
+            notifyChange();
+        }
+    }
+
+    public int getLastCheckpoint() {
+        return lastCheckpoint;
     }
 
 }

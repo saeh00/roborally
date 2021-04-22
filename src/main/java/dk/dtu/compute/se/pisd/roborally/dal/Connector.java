@@ -50,7 +50,7 @@ class Connector {
     Connector() {
 
 		//String url = "jdbc:mysql://localhost:3306/testJDBCrobo?serverTimezone=UTC&useSSL=false";
-		String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?serverTimezone=UTC" + "&useSSL=false";
+		String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?serverTimezone=UTC";
 
 		System.out.println("Connecting database...");
 

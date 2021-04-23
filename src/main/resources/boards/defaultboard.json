@@ -1,36 +1,34 @@
 {
-  "width": 8,
-  "height": 8,
+  "width": 10,
+  "height": 10,
   "spaces": [
     {
-      "walls": [
-        "SOUTH"
-      ],
+      "playerNO": 0,
+      "x": 1,
+      "y": 6,
+      "walls": [],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
           "INSTANCE": {
-            "heading": "WEST"
+            "no": "1"
           }
         }
-      ],
-      "x": 0,
-      "y": 0
+      ]
     },
     {
-      "walls": [
-        "NORTH"
-      ],
+      "playerNO": 0,
+      "x": 1,
+      "y": 6,
+      "walls": [],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
           "INSTANCE": {
-            "heading": "WEST"
+            "no": "1"
           }
         }
-      ],
-      "x": 1,
-      "y": 0
+      ]
     },
     {
       "walls": [

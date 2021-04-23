@@ -21,6 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import com.sun.jdi.connect.Connector;
 import com.sun.jdi.connect.Transport;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
@@ -31,6 +34,8 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
+import dk.dtu.compute.se.pisd.roborally.files.Loader;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -41,6 +46,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +90,12 @@ public class AppController implements Observer {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
+            String layout = this.boardLayout();
+
+            if (layout.equals("")) {
+                layout = "defaultboard";
+            }
+
             Board board = new Board(8,8);
             gameController = new GameController(board);
             int no = result.get();
@@ -182,6 +194,58 @@ public class AppController implements Observer {
         if (gameController == null || stopGame()) {
             Platform.exit();
         }
+    }
+
+    private String boardLayout() {
+
+        Loader loader = new Loader();
+        String filename = loader.open();
+
+        return filename;
+
+    }
+
+    public Board createBoardFromLayout(String layout) {
+
+        GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+        Gson gson = simpleBuilder.create();
+
+        InputStream is = null;
+
+        if (layout == null) {
+            return new Board(8,8);
+        }
+
+        if (layout.equals("default")) {
+            is = this.getClass().getClassLoader().getResourceAsStream("boards/default.json");
+        } else {
+            try {
+                is = new FileInputStream(new File(layout));
+            } catch (FileNotFoundException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "En fejl opstod under indlæsningen af filen.");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            InputStreamReader isr = new InputStreamReader(is);
+
+            JsonReader reader = gson.newJsonReader(isr);
+
+            BoardTemplate boardTemplate = gson.fromJson(reader, BoardTemplate.class);
+            Board board = boardTemplate.toBoard();
+
+            reader.close();
+
+            return board;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
     public boolean isGameRunning() {

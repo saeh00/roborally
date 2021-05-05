@@ -31,6 +31,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -58,6 +59,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+    final private List<Integer> GAME_BOARDS = Arrays.asList(1, 2);
     final private List<Integer> GAME_ID = Arrays.asList(1, 2, 3, 4, 5);
     final private RoboRally roboRally;
 
@@ -73,6 +75,24 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
 
+        ChoiceDialog<Integer> dialog2 = new ChoiceDialog<>(GAME_BOARDS.get(0),GAME_BOARDS);
+        dialog2.setTitle("Board selector");
+        dialog2.setHeaderText("Choose board");
+        Optional<Integer> boardSelector = dialog2.showAndWait();
+
+        String chooseBoard;
+
+        switch (boardSelector.get()){
+            case 1:
+                chooseBoard = "defaultboard";
+                break;
+            case 2:
+                chooseBoard = "board2";
+                break;
+            default:
+                chooseBoard = "defaultboard";
+        }
+
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -84,7 +104,7 @@ public class AppController implements Observer {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
+            Board board = LoadBoard.loadBoard(chooseBoard);
             gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {

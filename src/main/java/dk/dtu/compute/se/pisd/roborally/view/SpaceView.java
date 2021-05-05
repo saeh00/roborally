@@ -22,11 +22,18 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -61,6 +68,8 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
+
+        addToBoard();
         // updatePlayer();
 
         // This space view should listen to changes of the space
@@ -68,8 +77,94 @@ public class SpaceView extends StackPane implements ViewObserver {
         update(space);
     }
 
+    private void addToBoard(){
+        Canvas spaceBackground = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
+        GraphicsContext gc = spaceBackground.getGraphicsContext2D();
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(5);
+        gc.setLineCap(StrokeLineCap.ROUND);
+
+        for (Heading wall:
+                space.getWalls()
+        )
+        {
+            switch (wall)
+            {
+                case NORTH:
+                    gc.strokeLine(2, 2, SPACE_WIDTH - 2, 2);
+                    break;
+                case SOUTH:
+                    gc.strokeLine(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+                    break;
+                case WEST:
+                    gc.strokeLine(2, 2, 2, SPACE_HEIGHT - 2);
+                    break;
+                case EAST:
+                    gc.strokeLine(SPACE_WIDTH - 2, 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+                    break;
+            }
+        }
+
+
+        gc.setLineWidth(2);
+        for(FieldAction action : space.getFieldActions()) {
+            if(action instanceof ConveyorBelt)
+            {
+                gc.setStroke(Color.BLUE);
+                switch (((ConveyorBelt) action).getHeading())
+                {
+                    case NORTH:
+                        gc.strokeLine(2, SPACE_HEIGHT/2, SPACE_WIDTH/2, 2);
+                        gc.strokeLine(SPACE_WIDTH - 2, SPACE_HEIGHT/2, SPACE_WIDTH/2, 2);
+                        break;
+                    case EAST:
+                        gc.strokeLine(SPACE_WIDTH/2, 2, SPACE_WIDTH - 2, SPACE_HEIGHT/2);
+                        gc.strokeLine(SPACE_WIDTH/2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT/2);
+                        break;
+                    case WEST:
+                        gc.strokeLine(SPACE_WIDTH/2, 2, 2, SPACE_HEIGHT/2);
+                        gc.strokeLine(SPACE_WIDTH/2, SPACE_HEIGHT - 2, 2, SPACE_HEIGHT/2);
+                        break;
+                    case SOUTH:
+                        gc.strokeLine(2, SPACE_HEIGHT/2, SPACE_WIDTH/2, SPACE_HEIGHT - 2);
+                        gc.strokeLine(SPACE_WIDTH - 2, SPACE_HEIGHT/2, SPACE_WIDTH/2, SPACE_HEIGHT - 2);
+                        break;
+                    default:
+                        this.setStyle("-fx-background-color: pink;");
+                }
+            }
+
+            if(action instanceof CheckPoint) {
+                gc.setStroke(Color.GREEN);
+                if(((CheckPoint) action).getCheckpointNumber() == 0)
+                {
+                    //gc.strokeOval(SPACE_WIDTH/2 - 15, SPACE_HEIGHT/2 - 20, 30, 40);
+                    gc.strokeLine(SPACE_WIDTH/2 - 10,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 - 10, SPACE_HEIGHT/2 + 20 );
+                    gc.strokeLine(SPACE_WIDTH/2 + 10,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 + 20 );
+                    gc.strokeLine(SPACE_WIDTH/2 - 10,SPACE_HEIGHT/2 + 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 + 20 );
+                    gc.strokeLine(SPACE_WIDTH/2 - 10,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 - 20 );
+                }
+                else
+                {
+                    for(int i = 0; i < ((CheckPoint) action).getCheckpointNumber(); i++)
+                    {
+                        gc.strokeLine(SPACE_WIDTH/2 - 25 + 5*i,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 - 25 + 5*i, SPACE_HEIGHT/2 + 20 );
+                    }
+                }
+            }
+        }
+        this.getChildren().add(spaceBackground);
+    }
+
+
+
+
+
     private void updatePlayer() {
-        this.getChildren().clear();
+        if(this.getChildren().size() > 1)
+        {
+            this.getChildren().remove(1,this.getChildren().size());
+        }
 
         Player player = space.getPlayer();
         if (player != null) {

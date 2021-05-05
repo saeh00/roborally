@@ -41,7 +41,7 @@ public class Player extends Subject {
 
     private String name;
     private String color;
-    private int lastCheckpoint;
+    private int lastCheckpoint = 0;
 
     private Space space;
     private Heading heading = SOUTH;

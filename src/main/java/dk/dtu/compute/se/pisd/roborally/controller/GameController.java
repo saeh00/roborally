@@ -61,6 +61,15 @@ public class GameController {
         board.changePlayer();
 
         System.out.println("It is now " + board.getCurrentPlayer().getName() + "'s turn");
+
+        for (FieldAction action : space.getFieldActions()) {
+
+            if (action instanceof ConveyorBelt) {
+                action.doAction(this, space);
+            }
+
+        }
+
     }
 
     public void startProgrammingPhase() {
@@ -229,6 +238,13 @@ public class GameController {
             return;
         }
         player.setSpace(space);
+        for (FieldAction action : space.getFieldActions()) {
+
+            if (action instanceof ConveyorBelt) {
+                action.doAction(this, space);
+            }
+
+        }
     }
 
     public void moveForward(@NotNull Player player) {
@@ -264,6 +280,7 @@ public class GameController {
                 // the thrown exception is supposed to be passed on to the caller
 
                 assert space.getPlayer() == null : "Space to move to is not free: " + space; // make sure space is free now
+
             } else {
                 throw new ImpossibleMoveException(player, space, heading);
             }

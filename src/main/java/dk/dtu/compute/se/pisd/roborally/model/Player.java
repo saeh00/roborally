@@ -139,6 +139,7 @@ public class Player extends Subject {
         if (lastCheckpoint == (this.lastCheckpoint + 1)) {
             this.lastCheckpoint = lastCheckpoint;
             notifyChange();
+            System.out.println("o");
         }
     }
 

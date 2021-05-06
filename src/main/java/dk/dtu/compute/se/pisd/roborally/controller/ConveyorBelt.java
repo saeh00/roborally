@@ -44,7 +44,28 @@ public class ConveyorBelt extends FieldAction {
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        // TODO needs to be implemented
+
+        Player player = gameController.board.getSpace(space.x, space.y).getPlayer();
+
+        switch (heading) {
+            case EAST:
+                Space eastSpace = gameController.board.getSpace(player.getSpace().x + 1, player.getSpace().y);
+                player.setSpace(eastSpace);
+                break;
+            case WEST:
+                Space westSpace = gameController.board.getSpace(player.getSpace().x - 1, player.getSpace().y);
+                player.setSpace(westSpace);
+                break;
+            case SOUTH:
+                Space southSpace = gameController.board.getSpace(player.getSpace().x, player.getSpace().y + 1);
+                player.setSpace(southSpace);
+                break;
+            case NORTH:
+                Space northSpace = gameController.board.getSpace(player.getSpace().x, player.getSpace().y - 1);
+                player.setSpace(northSpace);
+                break;
+        }
+
         return false;
     }
 

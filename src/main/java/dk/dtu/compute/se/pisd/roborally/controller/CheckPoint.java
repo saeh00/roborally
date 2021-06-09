@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CheckPoint extends FieldAction {
 
-    private int checkpointNumber;
+    private final int checkpointNumber;
 
     public CheckPoint(int checkpointNumber) {
         this.checkpointNumber = checkpointNumber;
@@ -56,14 +56,6 @@ public class CheckPoint extends FieldAction {
         Player player = space.getPlayer();
 
         System.out.println(player.getName() + " has reached a checkpoint");
-        player.setLastCheckpoint(checkpointNumber + 1);
-
-        if (player.getLastCheckpoint() == 2) {
-            System.out.println("Game has ended.");
-            System.exit(0);
-            return false;
-        }
-
         if(player.getLastCheckpoint() == checkpointNumber)
         {
             player.setLastCheckpoint(checkpointNumber + 1);

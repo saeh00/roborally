@@ -65,6 +65,7 @@ public class GameController {
         for (FieldAction action : space.getFieldActions()) {
 
             if (action instanceof CheckPoint) {
+                checkpointWinner();
                 action.doAction(this, space);
             }
 
@@ -167,6 +168,7 @@ public class GameController {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
                     step++;
+                    checkpointWinner();
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
@@ -183,6 +185,19 @@ public class GameController {
             // this should not happen
             assert false;
         }
+    }
+
+    private void checkpointWinner() {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+
+            Player p = board.getPlayer(i);
+            if (p.getLastCheckpoint() >= 3) {
+                System.out.println(p.getName() + " has won the game.");
+                System.exit(0);
+            }
+
+        }
+
     }
 
     private void executeCommand(@NotNull Player player, Command command) {
@@ -246,6 +261,7 @@ public class GameController {
 
             if (action instanceof CheckPoint) {
                 action.doAction(this, space);
+                checkpointWinner();
             }
 
             if (action instanceof ConveyorBelt) {

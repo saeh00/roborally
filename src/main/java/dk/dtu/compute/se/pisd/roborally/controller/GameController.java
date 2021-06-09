@@ -64,6 +64,10 @@ public class GameController {
 
         for (FieldAction action : space.getFieldActions()) {
 
+            if (action instanceof CheckPoint) {
+                action.doAction(this, space);
+            }
+
             if (action instanceof ConveyorBelt) {
                 action.doAction(this, space);
             }
@@ -239,6 +243,10 @@ public class GameController {
         }
         player.setSpace(space);
         for (FieldAction action : space.getFieldActions()) {
+
+            if (action instanceof CheckPoint) {
+                action.doAction(this, space);
+            }
 
             if (action instanceof ConveyorBelt) {
                 action.doAction(this, space);

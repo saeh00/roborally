@@ -224,7 +224,7 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-        return "Player = " + getCurrentPlayer().getName() + " - Count amount: " + getCounter();
+        return "Player = " + getCurrentPlayer().getName() + " - Count amount: " + getCounter() + " - Checkpoints: " + getCurrentPlayer().getLastCheckpoint();
     }
 
     public int getCounter() {

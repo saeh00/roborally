@@ -65,7 +65,11 @@ public class GameController {
         for (FieldAction action : space.getFieldActions()) {
 
             if (action instanceof CheckPoint) {
-                checkpointWinner();
+
+                if (checkpointWinner()) {
+                    System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                }
+
                 action.doAction(this, space);
             }
 
@@ -168,7 +172,11 @@ public class GameController {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
                     step++;
-                    checkpointWinner();
+
+                    if (checkpointWinner()) {
+                        System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                    }
+
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
@@ -187,18 +195,20 @@ public class GameController {
         }
     }
 
-    private void checkpointWinner() {
+    private boolean checkpointWinner() {
+
         for (int i = 0; i < board.getPlayersNumber(); i++) {
 
             Player p = board.getPlayer(i);
             if (p.getLastCheckpoint() >= 3) {
-                System.out.println(p.getName() + " has won the game.");
-                System.exit(0);
+                //Platform.exit();
+                return true;
             }
 
         }
-
+        return false;
     }
+
 
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
@@ -261,7 +271,11 @@ public class GameController {
 
             if (action instanceof CheckPoint) {
                 action.doAction(this, space);
-                checkpointWinner();
+
+                if (checkpointWinner()) {
+                    System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                }
+
             }
 
             if (action instanceof ConveyorBelt) {
@@ -277,6 +291,7 @@ public class GameController {
             Heading heading = player.getHeading();
 
             Space target = board.getNeighbour(space, heading);
+
             if (target != null) {
                 try {
                     moveToSpace(player, target, heading);
@@ -310,6 +325,25 @@ public class GameController {
             }
         }
         player.setSpace(space);
+
+        for (FieldAction action : space.getFieldActions()) {
+
+            if (action instanceof CheckPoint) {
+                action.doAction(this, space);
+
+                if (checkpointWinner()) {
+                    System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                }
+
+            }
+
+            if (action instanceof ConveyorBelt) {
+                action.doAction(this, space);
+            }
+
+        }
+
+
     }
 
     public void fastForward(@NotNull Player player) {

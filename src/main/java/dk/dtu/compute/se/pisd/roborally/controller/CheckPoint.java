@@ -55,12 +55,14 @@ public class CheckPoint extends FieldAction {
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         Player player = space.getPlayer();
 
-        System.out.println(player.getName() + " has reached a checkpoint");
+        System.out.println(player.getName() + " has reached the checkpoint");
+
         if(player.getLastCheckpoint() == checkpointNumber)
         {
             player.setLastCheckpoint(checkpointNumber + 1);
 
         }
+
         return false;
     }
 

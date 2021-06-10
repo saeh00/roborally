@@ -37,5 +37,6 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:15.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:15.0.1" level="project" />
     <orderEntry type="library" name="javafx.base" level="project" />
+    <orderEntry type="library" name="lib" level="application" />
   </component>
 </module>

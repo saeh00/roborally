@@ -41,6 +41,8 @@ class Repository implements IRepository {
 	private static final String GAME_GAMEID = "gameID";
 
 	private static final String GAME_NAME = "name";
+
+	private static final String GAME_BOARDNAME = "boardName";
 	
 	private static final String GAME_CURRENTPLAYER = "currentPlayer";
 
@@ -62,7 +64,6 @@ class Repository implements IRepository {
 
 	private static final String PLAYER_HEADING = "heading";
 
-	private static final String PLAYER_NEXTCHECKPOINT = "nextCheckpoint";
 
 	private static final String CARD_PLAYERID = "playerID";
 	private static final String CARD_HAND0 = "hand0";
@@ -102,6 +103,7 @@ class Repository implements IRepository {
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
+				ps.setString(5, game.boardName);
 
 				// If you have a foreign key constraint for current players,
 				// the check would need to be temporarily disabled, since

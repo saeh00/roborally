@@ -52,4 +52,6 @@ CREATE TABLE IF NOT EXISTS CardField (
     FOREIGN KEY (gameID, playerID) REFERENCES Player(gameID, playerID)
 );;
 
+
+
 SET FOREIGN_KEY_CHECKS = 1;;

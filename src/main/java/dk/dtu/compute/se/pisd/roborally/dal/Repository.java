@@ -61,6 +61,9 @@ class Repository implements IRepository {
 	private static final String PLAYER_POSITION_Y = "positionY";
 
 	private static final String PLAYER_HEADING = "heading";
+
+	private static final String PLAYER_NEXTCHECKPOINT = "nextCheckpoint";
+
 	private static final String CARD_PLAYERID = "playerID";
 	private static final String CARD_HAND0 = "hand0";
 	private static final String CARD_HAND1 = "hand1";
@@ -622,7 +625,7 @@ class Repository implements IRepository {
 	}
 
 	private void loadCardFieldsFromDB(Board game) throws SQLException{
-		PreparedStatement ps = getSelectGameIdsStatement();
+		PreparedStatement ps = getSelectCardsASCStatement();
 		ps.setInt(1, game.getGameId());
 
 		ResultSet rs = ps.executeQuery();
@@ -668,8 +671,21 @@ class Repository implements IRepository {
 		rs.close();
 	}
 
+	private PreparedStatement select_cards_asc_stmt = null;
 
-
-
+	private PreparedStatement getSelectCardsASCStatement() {
+		if (select_cards_asc_stmt == null) {
+			Connection connection = connector.getConnection();
+			try {
+				// This statement does not need to be updatable
+				select_cards_asc_stmt = connection.prepareStatement(
+						SQL_SELECT_CARDS_ASC);
+			} catch (SQLException e) {
+				// TODO error handling
+				e.printStackTrace();
+			}
+		}
+		return select_cards_asc_stmt;
+	}
 
 }

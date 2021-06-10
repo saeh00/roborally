@@ -25,8 +25,8 @@ import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
+import javafx.application.Platform;
+import javafx.scene.control.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -61,19 +61,38 @@ public class CheckPoint extends FieldAction {
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         Player player = space.getPlayer();
 
-        System.out.println(player.getName() + " has reached a checkpoint");
         if(player.getLastCheckpoint() == checkpointNumber)
         {
             player.setLastCheckpoint(checkpointNumber + 1);
-/*
-            ChoiceDialog<GameInDB>dialog = new ChoiceDialog<>();
+
+            /*ChoiceDialog<GameInDB>dialog = new ChoiceDialog<>();
             dialog.setTitle("Load game");
             dialog.setHeaderText("Select save to load");
-            Optional<GameInDB> result = dialog.showAndWait();
+            Optional<GameInDB> result = dialog.showAndWait();*/
 
- */
 
         }
+
+        if (gameController.checkpointWinner()) {
+
+            ButtonType view_board = new ButtonType("View board", ButtonBar.ButtonData.OK_DONE);
+            ButtonType exit = new ButtonType("Exit", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Congratulations " + player.getName() + ". What should happen next?", view_board, exit);
+
+            alert.setTitle(player.getName() + " has won!");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if (option.orElse(view_board) == exit) {
+                // exit
+                Platform.exit();
+            } else {
+                gameController.view_board = true;
+                System.out.println("Player has returned to board");
+            }
+
+        }
+
         return false;
     }
 

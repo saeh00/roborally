@@ -39,6 +39,8 @@ public class GameController {
 
     final public Board board;
 
+    public boolean view_board;
+
     public GameController(Board board) {
         this.board = board;
     }
@@ -46,6 +48,12 @@ public class GameController {
     // TODO lot of stuff missing here
 
     public void moveCurrentPlayerToSpace(@NotNull Space space) {
+
+        if (view_board) {
+            System.out.println("The board is in view mode.");
+            return;
+        }
+
         System.out.println(space.x + " " + space.y);
         if (board.getSpace(space.x, space.y).getPlayer() == board.getCurrentPlayer()) {
             System.out.println("You are already standing on this square.");
@@ -71,14 +79,6 @@ public class GameController {
 
             if (action instanceof CheckPoint) {
 
-                if (checkpointWinner()) {
-                    System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
-                    ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
-                    dialog.setTitle("het");
-                    dialog.setHeaderText("Select save to load");
-                    Optional<GameInDB> result = dialog.showAndWait();
-                }
-
                 action.doAction(this, space);
             }
 
@@ -95,6 +95,12 @@ public class GameController {
     }
 
     public void startProgrammingPhase() {
+
+        if (view_board) {
+            System.out.println("The board is in view mode.");
+            return;
+        }
+
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
@@ -123,6 +129,12 @@ public class GameController {
     }
 
     public void finishProgrammingPhase() {
+
+        if (view_board) {
+            System.out.println("The board is in view mode.");
+            return;
+        }
+
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
@@ -131,6 +143,12 @@ public class GameController {
     }
 
     private void makeProgramFieldsVisible(int register) {
+
+        if (view_board) {
+            System.out.println("The board is in view mode.");
+            return;
+        }
+
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
@@ -141,6 +159,12 @@ public class GameController {
     }
 
     private void makeProgramFieldsInvisible() {
+
+        if (view_board) {
+            System.out.println("The board is in view mode.");
+            return;
+        }
+
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
@@ -156,6 +180,12 @@ public class GameController {
     }
 
     public void executeStep() {
+
+        if (view_board) {
+            System.out.println("The board is in view mode.");
+            return;
+        }
+
         board.setStepMode(true);
         continuePrograms();
     }
@@ -167,6 +197,12 @@ public class GameController {
     }
 
     private void executeNextStep() {
+
+        if (view_board) {
+            System.out.println("The board is in view mode.");
+            return;
+        }
+
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -185,15 +221,6 @@ public class GameController {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
                     step++;
-
-                    if (checkpointWinner()) {
-                        System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
-                        ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
-                        dialog.setTitle("het");
-                        dialog.setHeaderText("Select save to load");
-                        Optional<GameInDB> result = dialog.showAndWait();
-                    }
-
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
@@ -212,7 +239,7 @@ public class GameController {
         }
     }
 
-    private boolean checkpointWinner() {
+    public boolean checkpointWinner() {
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
 
@@ -288,15 +315,6 @@ public class GameController {
 
             if (action instanceof CheckPoint) {
                 action.doAction(this, space);
-
-                if (checkpointWinner()) {
-                    System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
-                    ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
-                    dialog.setTitle("het");
-                    dialog.setHeaderText("Select save to load");
-                    Optional<GameInDB> result = dialog.showAndWait();
-                }
-
             }
 
             if (action instanceof ConveyorBelt) {
@@ -351,14 +369,6 @@ public class GameController {
 
             if (action instanceof CheckPoint) {
                 action.doAction(this, space);
-
-                if (checkpointWinner()) {
-                    System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
-                    ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
-                    dialog.setTitle("het");
-                    dialog.setHeaderText("Select save to load");
-                    Optional<GameInDB> result = dialog.showAndWait();
-                }
 
             }
 

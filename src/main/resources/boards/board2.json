@@ -18,6 +18,7 @@
     },
     {
       "walls": [
+        "SOUTH"
       ],
       "actions": [
         {

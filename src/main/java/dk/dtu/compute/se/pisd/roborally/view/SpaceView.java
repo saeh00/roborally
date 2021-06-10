@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.CheckPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.UTurn;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -132,6 +133,16 @@ public class SpaceView extends StackPane implements ViewObserver {
                     default:
                         this.setStyle("-fx-background-color: pink;");
                 }
+            }
+
+            if (action instanceof UTurn) {
+
+                gc.setStroke(Color.RED);
+                gc.strokeLine(SPACE_WIDTH/2 - 11,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 - 10, SPACE_HEIGHT/2 + 20 );
+                gc.strokeLine(SPACE_WIDTH/2 + 11,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 + 20 );
+                gc.strokeLine(SPACE_WIDTH/2 - 11,SPACE_HEIGHT/2 + 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 + 20 );
+                gc.strokeLine(SPACE_WIDTH/2 - 11,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 - 20 );
+
             }
 
             if(action instanceof CheckPoint) {

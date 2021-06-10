@@ -143,7 +143,7 @@ public class AppController implements Observer {
 
         Matcher matcher = Pattern.compile("\\d+").matcher(result.get().toString());
         matcher.find();
-        int loadGame_ID = Integer.valueOf(matcher.group());
+        int loadGame_ID = Integer.parseInt(matcher.group());
 
         gameController = new GameController(RepositoryAccess.getRepository().loadGameFromDB(loadGame_ID));
 

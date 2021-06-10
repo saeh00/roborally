@@ -31,13 +31,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-/**
- * ...
- *
- * @author Markus Visvaldis Ingemann Thieden, s164920
- * @author Tobias Sønderskov Hansen, s164270
- */
-
 public class CheckPoint extends FieldAction {
 
     private final int checkpointNumber;

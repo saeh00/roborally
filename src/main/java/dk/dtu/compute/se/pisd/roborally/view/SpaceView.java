@@ -138,10 +138,10 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof UTurn) {
 
                 gc.setStroke(Color.RED);
-                gc.strokeLine(SPACE_WIDTH/2 - 11,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 - 10, SPACE_HEIGHT/2 + 20 );
-                gc.strokeLine(SPACE_WIDTH/2 + 11,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 + 20 );
-                gc.strokeLine(SPACE_WIDTH/2 - 11,SPACE_HEIGHT/2 + 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 + 20 );
-                gc.strokeLine(SPACE_WIDTH/2 - 11,SPACE_HEIGHT/2 - 20, SPACE_WIDTH/2 + 10, SPACE_HEIGHT/2 - 20 );
+                gc.strokeLine(SPACE_WIDTH/2, 2, SPACE_WIDTH - 2, SPACE_HEIGHT/2);
+                gc.strokeLine(SPACE_WIDTH/2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT/2);
+                gc.strokeLine(SPACE_WIDTH/2, 2, 2, SPACE_HEIGHT/2);
+                gc.strokeLine(SPACE_WIDTH/2, SPACE_HEIGHT - 2, 2, SPACE_HEIGHT/2);
 
             }
 

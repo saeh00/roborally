@@ -21,8 +21,13 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 /**
  * ...
@@ -68,6 +73,10 @@ public class GameController {
 
                 if (checkpointWinner()) {
                     System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                    ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
+                    dialog.setTitle("het");
+                    dialog.setHeaderText("Select save to load");
+                    Optional<GameInDB> result = dialog.showAndWait();
                 }
 
                 action.doAction(this, space);
@@ -175,6 +184,10 @@ public class GameController {
 
                     if (checkpointWinner()) {
                         System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                        ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
+                        dialog.setTitle("het");
+                        dialog.setHeaderText("Select save to load");
+                        Optional<GameInDB> result = dialog.showAndWait();
                     }
 
                     if (step < Player.NO_REGISTERS) {
@@ -274,6 +287,10 @@ public class GameController {
 
                 if (checkpointWinner()) {
                     System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                    ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
+                    dialog.setTitle("het");
+                    dialog.setHeaderText("Select save to load");
+                    Optional<GameInDB> result = dialog.showAndWait();
                 }
 
             }
@@ -333,6 +350,10 @@ public class GameController {
 
                 if (checkpointWinner()) {
                     System.out.println("The game has ended, " + board.getCurrentPlayer().getName() + " has won.");
+                    ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>();
+                    dialog.setTitle("het");
+                    dialog.setHeaderText("Select save to load");
+                    Optional<GameInDB> result = dialog.showAndWait();
                 }
 
             }

@@ -21,9 +21,15 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
+import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 /**
  * ...
@@ -55,14 +61,19 @@ public class CheckPoint extends FieldAction {
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         Player player = space.getPlayer();
 
-        System.out.println(player.getName() + " has reached the checkpoint");
-
+        System.out.println(player.getName() + " has reached a checkpoint");
         if(player.getLastCheckpoint() == checkpointNumber)
         {
             player.setLastCheckpoint(checkpointNumber + 1);
+/*
+            ChoiceDialog<GameInDB>dialog = new ChoiceDialog<>();
+            dialog.setTitle("Load game");
+            dialog.setHeaderText("Select save to load");
+            Optional<GameInDB> result = dialog.showAndWait();
+
+ */
 
         }
-
         return false;
     }
 

@@ -75,6 +75,14 @@
       "walls": [
         "EAST"
       ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.UTurn",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
       "x": 3,
       "y": 3
     },

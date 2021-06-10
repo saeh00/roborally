@@ -82,6 +82,10 @@ public class GameController {
                 action.doAction(this, space);
             }
 
+            if (action instanceof UTurn) {
+                action.doAction(this, space);
+            }
+
             if (action instanceof ConveyorBelt) {
                 action.doAction(this, space);
             }

@@ -42,11 +42,16 @@ public class LoadBoard {
 
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
+    private static final String BOARD2 = "board2";
     private static final String JSON_EXT = "json";
 
     public static Board loadBoard(String boardname) {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
+        } else if (boardname == DEFAULTBOARD){
+            boardname = DEFAULTBOARD;
+        } else {
+            boardname = BOARD2;
         }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();

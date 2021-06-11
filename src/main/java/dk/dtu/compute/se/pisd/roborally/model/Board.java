@@ -238,4 +238,7 @@ public class Board extends Subject {
         this.counter = counter;
     }
 
+    public String getBoardName() {
+        return boardName;
+    }
 }

@@ -7,9 +7,10 @@ CREATE TABLE IF NOT EXISTS Game (
   name varchar(255),
 
   phase tinyint,
-  step tinyint,
   currentPlayer tinyint NULL,
+  step tinyint,
   boardName varchar(255),
+
 
   PRIMARY KEY (gameID),
   FOREIGN KEY (gameID, currentPlayer) REFERENCES Player(gameID, playerID)

@@ -105,6 +105,7 @@ class Repository implements IRepository {
 				ps.setInt(4, game.getStep());
 				ps.setString(5, game.boardName);
 
+
 				// If you have a foreign key constraint for current players,
 				// the check would need to be temporarily disabled, since
 				// MySQL does not have a per transaction validation, but
@@ -349,7 +350,7 @@ class Repository implements IRepository {
 				// game = new Board(width,height);
 				// TODO and we should also store the used game board in the database
 				//      for now, we use the default game board
-				game = LoadBoard.loadBoard(null);
+				game = LoadBoard.loadBoard(GAME_BOARDNAME);
 				if (game == null) {
 					return null;
 				}
@@ -484,7 +485,7 @@ class Repository implements IRepository {
 	}
 
 	private static final String SQL_INSERT_GAME =
-			"INSERT INTO Game(name, currentPlayer, phase, step) VALUES (?, ?, ?, ?)";
+			"INSERT INTO Game(name, currentPlayer, phase, step,boardName) VALUES (?, ?, ?, ?,?)";
 
 	private PreparedStatement insert_game_stmt = null;
 

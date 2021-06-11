@@ -46,12 +46,12 @@ public class LoadBoard {
     private static final String JSON_EXT = "json";
 
     public static Board loadBoard(String boardname) {
-        if (boardname == null) {
+        if (boardname == "defaultboard") {
             boardname = DEFAULTBOARD;
-        } else if (boardname == DEFAULTBOARD){
-            boardname = DEFAULTBOARD;
-        } else {
+        } else if (boardname == "board2"){
             boardname = BOARD2;
+        } else {
+            System.out.println("Print noget for hyggens skyld");
         }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();

@@ -40,6 +40,14 @@
     },
     {
       "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "checkpointNumber": 0
+          }
+        }
+      ],
       "x": 1,
       "y": 5
     },
@@ -105,6 +113,14 @@
       "walls": [
         "WEST"
       ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "checkpointNumber": 1
+          }
+        }
+      ],
       "x": 5,
       "y": 5
     },
@@ -118,6 +134,14 @@
     {
       "walls": [
         "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "checkpointNumber": 2
+          }
+        }
       ],
       "x": 7,
       "y": 7
